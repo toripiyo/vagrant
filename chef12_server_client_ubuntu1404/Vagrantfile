@@ -1,6 +1,8 @@
 @server_script = <<EOF
   (cd /tmp && wget https://packages.chef.io/stable/ubuntu/14.04/chef-server-core_12.6.0-1_amd64.deb)
   sudo dpkg -i /tmp/chef-server-core_12.6.0-1_amd64.deb
+  sudo cp /opt/opscode/embedded/service/omnibus-ctl/spec/fixtures/pivotal.pem \
+  /etc/opscode
   chef-server-ctl reconfigure
 EOF
 
@@ -11,7 +13,7 @@ EOF
 
 Vagrant.configure('2') do |config|
   config.vm.provider :virtualbox do |vb|
-    vb.customize ['modifyvm', :id, '--memory', '1024']
+    vb.customize ['modifyvm', :id, '--memory', '2048']
   end
 
   config.vm.define :chef_server do |host|
